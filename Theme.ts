@@ -1,7 +1,6 @@
 import { MD3DarkTheme } from 'react-native-paper';
 
-// Tema global: parte del tema oscuro de Paper y cambia los colores
-// por los del prototipo de Figma.
+// Tema global: parte del tema oscuro de Paper
 export const theme = {
   ...MD3DarkTheme,
   roundness: 3,
