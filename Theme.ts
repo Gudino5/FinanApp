@@ -14,8 +14,13 @@ export const theme = {
     onPrimary: '#171717',        // texto del botón Guardar
     outline: '#FFFFFF1A',        // bordes
     error: '#FF6B6B',            // rojo de Gasto
-    income: '#34D399',           // verde de Ingreso (color propio, Paper no lo trae)
+    income: '#34D399',           // verde de Ingreso (color propio, 
+                                   //  Paper no lo trae)
   },
 };
 
 export type AppTheme = typeof theme;
+
+
+
+

@@ -1,6 +1,6 @@
 import { PaperProvider } from 'react-native-paper';
 import { theme } from './Theme';
-import RegistrarScreen from './RegistrarScreen';
+import RegistrarScreen from './views/RegistrarScreen';
 
 export default function App() {
   return (
@@ -9,3 +9,5 @@ export default function App() {
     </PaperProvider>
   );
 }
+
+

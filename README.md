@@ -11,4 +11,6 @@ npx expo start
 ## Estructura
 - App.tsx: PaperProvider y tema global
 - Theme.ts: tema personalizado (MD3DarkTheme) y tipo AppTheme
-- RegistrarScreen.tsx: pantalla Registrar movimiento
+- RegistrarScreen.tsx: vista de Registrar movimiento
+- viewmodels/useRegistrarViewModel.ts: estado y acciones del formulario
+- models/Movimiento.ts: tipos, categorías y reglas del dominio
