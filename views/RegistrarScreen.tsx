@@ -10,9 +10,9 @@ import {
   useTheme,
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CATEGORIAS } from './models/Movimiento';
-import { useRegistrarViewModel } from './viewmodels/useRegistrarViewModel';
-import { AppTheme } from './Theme';
+import { CATEGORIAS } from '../models/Movimiento';
+import { useRegistrarViewModel } from '../viewmodels/useRegistrarViewModel';
+import { AppTheme } from '../Theme';
 
 export default function RegistrarScreen() {
   const theme = useTheme<AppTheme>();
