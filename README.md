@@ -14,3 +14,19 @@ npx expo start
 - RegistrarScreen.tsx: vista de Registrar movimiento
 - viewmodels/useRegistrarViewModel.ts: estado y acciones del formulario
 - models/Movimiento.ts: tipos, categorías y reglas del dominio
+
+## Flujo de trabajo
+
+### Ramas
+- `main`: siempre estable, la app debe abrir en Expo Go.
+- Una rama por Issue: `issue-<número>-<descripcion-corta>`.
+- Los cambios llegan a `main` mediante Pull Request en Azure DevOps.
+
+### Commits
+Formato: `<tipo> #<tarea>: <descripción>`
+
+Tipos: `feat`, `fix`, `docs`, `refactor`, `chore`.
+
+Ejemplo: `feat #22: definir tipos Movimiento y Presupuesto`
+
+El número de la tarea (`#22`) vincula el commit con el work item en Azure DevOps.
