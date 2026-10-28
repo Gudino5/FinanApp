@@ -10,7 +10,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CATEGORIAS } from '../models/Movimiento';
+import { CATEGORIAS } from '../models/Categoria';
 import { useRegistrarViewModel } from '../viewmodels/useRegistrarViewModel';
 import { AppTheme } from '../Theme';
 

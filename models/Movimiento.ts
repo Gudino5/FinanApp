@@ -1,11 +1,4 @@
-export const CATEGORIAS = [
-  'Comida',
-  'Transporte',
-  'Servicios',
-  'Sueldos',
-  'Ocio',
-  'Otros',
-] as const;
+import { CATEGORIAS } from './Categoria';
 
 export type Categoria = (typeof CATEGORIAS)[number];
 export type TipoMovimiento = 'gasto' | 'ingreso';

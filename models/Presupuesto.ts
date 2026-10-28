@@ -1,6 +1,6 @@
-import { Categoria } from './Movimiento';
+import { CategoriaGasto } from './Categoria';
 
 export interface Presupuesto {
-  categoria: Categoria;
+  categoria: CategoriaGasto;
   limite: number;
 }
