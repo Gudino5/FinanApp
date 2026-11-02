@@ -7,6 +7,7 @@ import Tarjeta from '../components/Tarjeta';
 import { AppTheme } from '../Theme';
 import { Movimiento } from '../models/Movimiento';
 import { useHistorialViewModel } from '../viewmodels/useHistorialViewModel';
+import EstadoVacio from '../components/EstadoVacio';
 
 function formatearMonto(monto: string): string {
   return `$${Number(monto).toFixed(2)}`;
@@ -81,12 +82,15 @@ export default function HistorialScreen() {
         ))}
       </ScrollView>
 
-      <FlatList
-        data={vm.movimientos}
-        keyExtractor={(m, i) => `${m.fecha}-${m.categoria}-${m.monto}-${i}`}
-        renderItem={({ item }) => <FilaMovimiento m={item} />}
-        contentContainerStyle={styles.lista}
-      />
+     <FlatList
+  data={vm.movimientos}
+  keyExtractor={(m, i) => `${m.fecha}-${m.categoria}-${m.monto}-${i}`}
+  renderItem={({ item }) => <FilaMovimiento m={item} />}
+  ListEmptyComponent={
+    <EstadoVacio mensaje="No hay movimientos para esta categoría." />
+  }
+  contentContainerStyle={styles.lista}
+/>
     </SafeAreaView>
   );
 }
