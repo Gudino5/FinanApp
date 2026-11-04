@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CATEGORIAS } from '../models/Categoria';
 import { useRegistrarViewModel } from '../viewmodels/useRegistrarViewModel';
 import { AppTheme } from '../Theme';
+import AdjuntarTicket from '../views/AdjuntarTicket';
 
 export default function RegistrarScreen() {
   const theme = useTheme<AppTheme>();
@@ -89,7 +90,7 @@ export default function RegistrarScreen() {
               multiline
               numberOfLines={3}
             />
-
+            <AdjuntarTicket/>
             <Button mode="contained" onPress={viewModel.guardar}>
               Guardar movimiento
             </Button>
