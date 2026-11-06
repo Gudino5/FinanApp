@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import AccionesRapidas from "../components/AccionesRapidas";
 import { TabParamList } from "../navigation/types";
+import MovimientosRecientes from "../components/MovimientosRecientes";
 
 export default function InicioScreen() {
   const theme = useTheme();
@@ -31,6 +32,10 @@ export default function InicioScreen() {
             navigation.navigate("Registrar", { tipo: "ingreso" })
           }
           onGasto={() => navigation.navigate("Registrar", { tipo: "gasto" })}
+        />
+        <MovimientosRecientes
+          movimientos={vm.recientes}
+          onVerHistorial={() => navigation.navigate("Historial")}
         />
       </ScrollView>
     </SafeAreaView>
