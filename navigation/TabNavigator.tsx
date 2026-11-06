@@ -8,9 +8,10 @@ import InicioScreen from '../views/InicioScreen';
 import RegistrarScreen from '../views/RegistrarScreen';
 import HistorialScreen from '../views/HistorialScreen';
 import PresupuestosScreen from '../views/PresupuestosScreen';
+import {TabParamList} from './types';
 
 const Tab = createBottomTabNavigator();
-
+const Tap = createBottomTabNavigator<TabParamList>();
 const ICONOS: Record<string, keyof typeof MaterialCommunityIcons.glyphMap> = {
   Inicio: 'home-outline',
   Registrar: 'plus-circle-outline',
