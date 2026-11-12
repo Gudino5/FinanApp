@@ -1,39 +1,34 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   crearMensajeDeGuardado,
-  movimientoEsValido,
   obtenerFechaActual,
   type Categoria,
   type TipoMovimiento,
-} from '../models/Movimiento';
+} from "../models/Movimiento";
+import { validarMovimiento, type ErroresFormulario } from "../utils/validacion";
 
 export const useRegistrarViewModel = () => {
-  const [tipo, setTipo] = useState<TipoMovimiento>('gasto');
-  const [monto, setMonto] = useState('');
+  const [tipo, setTipo] = useState<TipoMovimiento>("gasto");
+  const [monto, setMonto] = useState("");
   const [categoria, setCategoria] = useState<Categoria | null>(null);
   const [fecha, setFecha] = useState(obtenerFechaActual);
-  const [nota, setNota] = useState('');
+  const [nota, setNota] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
-  const [mensaje, setMensaje] = useState('');
+  const [mensaje, setMensaje] = useState("");
+  const [errores, setErrores] = useState<ErroresFormulario>({});
 
   const guardar = () => {
-    const formulario = { monto, categoria };
-    if (!movimientoEsValido(formulario)) {
-      setMensaje('Completa el monto y la categoría');
+    const nuevosErrores = validarMovimiento({ monto, categoria, fecha });
+    setErrores(nuevosErrores);
+
+    if (Object.keys(nuevosErrores).length > 0 || categoria === null) {
+      setMensaje("Revisa los campos marcados.");
       return;
     }
 
-    setMensaje(
-      crearMensajeDeGuardado({
-        tipo,
-        monto: formulario.monto,
-        categoria: formulario.categoria,
-        fecha,
-        nota,
-      }),
-    );
-    setMonto('');
-    setNota('');
+    setMensaje(crearMensajeDeGuardado({ tipo, monto, categoria, fecha, nota }));
+    setMonto("");
+    setNota("");
     setCategoria(null);
   };
 
@@ -45,18 +40,28 @@ export const useRegistrarViewModel = () => {
     nota,
     menuVisible,
     mensaje,
+    errores,
     cambiarTipo: (valor: string) => {
-      if (valor === 'gasto' || valor === 'ingreso') {
+      if (valor === "gasto" || valor === "ingreso") {
         setTipo(valor);
       }
     },
-    cambiarMonto: setMonto,
-    cambiarCategoria: setCategoria,
-    cambiarFecha: setFecha,
+    cambiarMonto: (valor: string) => {
+      setMonto(valor);
+      setErrores((e) => ({ ...e, monto: undefined }));
+    },
+    cambiarCategoria: (valor: Categoria) => {
+      setCategoria(valor);
+      setErrores((e) => ({ ...e, categoria: undefined }));
+    },
+    cambiarFecha: (valor: string) => {
+      setFecha(valor);
+      setErrores((e) => ({ ...e, fecha: undefined }));
+    },
     cambiarNota: setNota,
     abrirMenu: () => setMenuVisible(true),
     cerrarMenu: () => setMenuVisible(false),
-    cerrarMensaje: () => setMensaje(''),
+    cerrarMensaje: () => setMensaje(""),
     guardar,
   };
 };
