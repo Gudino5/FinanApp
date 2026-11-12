@@ -14,10 +14,27 @@ import { CATEGORIAS } from '../models/Categoria';
 import { useRegistrarViewModel } from '../viewmodels/useRegistrarViewModel';
 import { AppTheme } from '../Theme';
 import AdjuntarTicket from '../views/AdjuntarTicket';
+import { useCallback } from 'react';
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { TabParamList } from '../navigation/types';
 
 export default function RegistrarScreen() {
   const theme = useTheme<AppTheme>();
   const viewModel = useRegistrarViewModel();
+const route = useRoute<RouteProp<TabParamList, 'Registrar'>>();
+const navigation = useNavigation<BottomTabNavigationProp<TabParamList, 'Registrar'>>();
+const tipoRecibido = route.params?.tipo;
+
+// Al entrar desde los botones de Inicio, aplica el tipo y limpia el parámetro
+useFocusEffect(
+  useCallback(() => {
+    if (tipoRecibido) {
+      viewModel.cambiarTipo(tipoRecibido);
+      navigation.setParams({ tipo: undefined });
+    }
+  }, [tipoRecibido]),
+);
 
   return (
     <SafeAreaView style={[styles.contenedor, { backgroundColor: theme.colors.background }]}>
