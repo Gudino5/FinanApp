@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useCallback } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import {
   Button,
   Card,
@@ -10,28 +10,31 @@ import {
   Text,
   TextInput,
   useTheme,
-} from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   RouteProp,
   useFocusEffect,
   useNavigation,
   useRoute,
-} from '@react-navigation/native';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { CATEGORIAS } from '../models/Categoria';
-import { useRegistrarViewModel } from '../viewmodels/useRegistrarViewModel';
-import { AppTheme } from '../Theme';
-import { TabParamList } from '../navigation/types';
-import AdjuntarTicket from '../views/AdjuntarTicket';
+} from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { CATEGORIAS } from "../models/Categoria";
+import { useRegistrarViewModel } from "../viewmodels/useRegistrarViewModel";
+import { AppTheme } from "../Theme";
+import { TabParamList } from "../navigation/types";
+import AdjuntarTicket from "../views/AdjuntarTicket";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
+import { fechaDesdeISO, formatearFecha } from "../utils/formato";
 
 export default function RegistrarScreen() {
   const theme = useTheme<AppTheme>();
   const viewModel = useRegistrarViewModel();
-  const route = useRoute<RouteProp<TabParamList, 'Registrar'>>();
+  const route = useRoute<RouteProp<TabParamList, "Registrar">>();
   const navigation =
-
-    useNavigation<BottomTabNavigationProp<TabParamList, 'Registrar'>>();
+    useNavigation<BottomTabNavigationProp<TabParamList, "Registrar">>();
   const tipoRecibido = route.params?.tipo;
 
   // Al entrar desde los botones de Inicio, aplica el tipo y limpia el parámetro
@@ -45,10 +48,15 @@ export default function RegistrarScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.contenedor, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView
+      style={[styles.contenedor, { backgroundColor: theme.colors.background }]}
+    >
       <ScrollView contentContainerStyle={styles.contenido}>
         <Text variant="headlineSmall">Registrar movimiento</Text>
-        <Text variant="bodySmall" style={{ color: theme.colors.onSurfaceVariant }}>
+        <Text
+          variant="bodySmall"
+          style={{ color: theme.colors.onSurfaceVariant }}
+        >
           Completa el monto, la categoría y la fecha.
         </Text>
 
@@ -60,14 +68,15 @@ export default function RegistrarScreen() {
               theme={{
                 colors: {
                   secondaryContainer:
-                    viewModel.tipo === 'gasto' ? theme.colors.error : theme.colors.income,
-                  onSecondaryContainer: '#FFFFFF',
+                    viewModel.tipo === "gasto"
+                      ? theme.colors.error
+                      : theme.colors.income,
+                  onSecondaryContainer: "#FFFFFF",
                 },
-
               }}
               buttons={[
-                { value: 'gasto', label: 'Gasto' },
-                { value: 'ingreso', label: 'Ingreso' },
+                { value: "gasto", label: "Gasto" },
+                { value: "ingreso", label: "Ingreso" },
               ]}
             />
 
@@ -94,10 +103,13 @@ export default function RegistrarScreen() {
                   <Button
                     mode="outlined"
                     onPress={viewModel.abrirMenu}
-                    textColor={viewModel.errores.categoria ? theme.colors.error : undefined}
+                    textColor={
+                      viewModel.errores.categoria
+                        ? theme.colors.error
+                        : undefined
+                    }
                   >
-
-                    {viewModel.categoria ?? 'Selecciona una categoría'}
+                    {viewModel.categoria ?? "Selecciona una categoría"}
                   </Button>
                 }
               >
@@ -118,18 +130,20 @@ export default function RegistrarScreen() {
             </View>
 
             <View>
-              <TextInput
+              <Button
                 mode="outlined"
-                label="Fecha"
-                value={viewModel.fecha}
-                onChangeText={viewModel.cambiarFecha}
-                error={!!viewModel.errores.fecha}
-              />
+                icon="calendar"
+                onPress={viewModel.abrirSelectorFecha}
+                textColor={
+                  viewModel.errores.fecha ? theme.colors.error : undefined
+                }
+              >
+                {`Fecha: ${formatearFecha(viewModel.fecha)}`}
+              </Button>
               <HelperText type="error" visible={!!viewModel.errores.fecha}>
                 {viewModel.errores.fecha}
               </HelperText>
             </View>
-
 
             <TextInput
               mode="outlined"
@@ -143,12 +157,29 @@ export default function RegistrarScreen() {
             <Button mode="contained" onPress={viewModel.guardar}>
               Guardar movimiento
             </Button>
+            {viewModel.selectorFechaVisible && (
+              <DateTimePicker
+                value={fechaDesdeISO(viewModel.fecha)}
+                mode="date"
+                maximumDate={new Date()}
+                onChange={(
+                  evento: DateTimePickerEvent,
+                  fechaElegida?: Date,
+                ) => {
+                  if (evento.type === "set" && fechaElegida) {
+                    viewModel.elegirFecha(fechaElegida);
+                  } else {
+                    viewModel.cerrarSelectorFecha();
+                  }
+                }}
+              />
+            )}
           </Card.Content>
         </Card>
       </ScrollView>
 
       <Snackbar
-        visible={viewModel.mensaje !== ''}
+        visible={viewModel.mensaje !== ""}
         onDismiss={viewModel.cerrarMensaje}
         duration={3000}
       >
