@@ -19,19 +19,21 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { CATEGORIAS } from "../models/Categoria";
 import { useRegistrarViewModel } from "../viewmodels/useRegistrarViewModel";
 import { AppTheme } from "../Theme";
 import { TabParamList } from "../navigation/types";
-import AdjuntarTicket from "../views/AdjuntarTicket";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
 import { fechaDesdeISO, formatearFecha } from "../utils/formato";
+import AdjuntarTicket from "./AdjuntarTicket";
 
 export default function RegistrarScreen() {
   const theme = useTheme<AppTheme>();
   const viewModel = useRegistrarViewModel();
+
+  // ───────────── Navegación (tarea 38) ─────────────
   const route = useRoute<RouteProp<TabParamList, "Registrar">>();
   const navigation =
     useNavigation<BottomTabNavigationProp<TabParamList, "Registrar">>();
@@ -47,6 +49,7 @@ export default function RegistrarScreen() {
     }, [tipoRecibido]),
   );
 
+  // ───────────── Interfaz ─────────────
   return (
     <SafeAreaView
       style={[styles.contenedor, { backgroundColor: theme.colors.background }]}
@@ -62,6 +65,7 @@ export default function RegistrarScreen() {
 
         <Card mode="outlined" style={styles.tarjeta}>
           <Card.Content style={styles.formulario}>
+            {/* Tipo: gasto o ingreso */}
             <SegmentedButtons
               value={viewModel.tipo}
               onValueChange={viewModel.cambiarTipo}
@@ -80,6 +84,7 @@ export default function RegistrarScreen() {
               ]}
             />
 
+            {/* Monto (tarea 39: validación) */}
             <View>
               <TextInput
                 mode="outlined"
@@ -95,6 +100,7 @@ export default function RegistrarScreen() {
               </HelperText>
             </View>
 
+            {/* Categoría (tarea 39: validación) */}
             <View>
               <Menu
                 visible={viewModel.menuVisible}
@@ -129,6 +135,7 @@ export default function RegistrarScreen() {
               </HelperText>
             </View>
 
+            {/* Fecha (tarea 40: selector) */}
             <View>
               <Button
                 mode="outlined"
@@ -145,6 +152,7 @@ export default function RegistrarScreen() {
               </HelperText>
             </View>
 
+            {/* Nota */}
             <TextInput
               mode="outlined"
               label="Nota (opcional)"
@@ -153,10 +161,14 @@ export default function RegistrarScreen() {
               multiline
               numberOfLines={3}
             />
-            <AdjuntarTicket />
+
+            {/* Ticket adjunto (tarea 41: se reinicia al guardar) */}
+            <AdjuntarTicket key={viewModel.reinicios} />
+
             <Button mode="contained" onPress={viewModel.guardar}>
               Guardar movimiento
             </Button>
+
             {viewModel.selectorFechaVisible && (
               <DateTimePicker
                 value={fechaDesdeISO(viewModel.fecha)}
@@ -178,10 +190,12 @@ export default function RegistrarScreen() {
         </Card>
       </ScrollView>
 
+      {/* Aviso de confirmación (tarea 41) */}
       <Snackbar
         visible={viewModel.mensaje !== ""}
         onDismiss={viewModel.cerrarMensaje}
         duration={3000}
+        action={{ label: "OK", onPress: viewModel.cerrarMensaje }}
       >
         {viewModel.mensaje}
       </Snackbar>
@@ -193,6 +207,5 @@ const styles = StyleSheet.create({
   contenedor: { flex: 1 },
   contenido: { padding: 20, gap: 8 },
   tarjeta: { marginTop: 16 },
-
   formulario: { gap: 14 },
 });

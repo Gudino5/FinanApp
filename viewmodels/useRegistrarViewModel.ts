@@ -18,21 +18,31 @@ export const useRegistrarViewModel = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [errores, setErrores] = useState<ErroresFormulario>({});
+  const [reinicios, setReinicios] = useState(0);
+
+  const limpiarFormulario = () => {
+    setMonto("");
+    setCategoria(null);
+    setFecha(fechaAISO(new Date()));
+    setNota("");
+    setErrores({});
+    setMenuVisible(false);
+    setSelectorFechaVisible(false);
+    setReinicios((n) => n + 1);
+  };
 
   const guardar = () => {
-    const nuevosErrores = validarMovimiento({ monto, categoria, fecha });
-    setErrores(nuevosErrores);
+  const nuevosErrores = validarMovimiento({ monto, categoria, fecha });
+  setErrores(nuevosErrores);
 
-    if (Object.keys(nuevosErrores).length > 0 || categoria === null) {
-      setMensaje("Revisa los campos marcados.");
-      return;
-    }
+  if (Object.keys(nuevosErrores).length > 0 || categoria === null) {
+    setMensaje('Revisa los campos marcados.');
+    return;
+  }
 
-    setMensaje(crearMensajeDeGuardado({ tipo, monto, categoria, fecha, nota }));
-    setMonto("");
-    setNota("");
-    setCategoria(null);
-  };
+  setMensaje(crearMensajeDeGuardado({ tipo, monto, categoria, fecha, nota }));
+  limpiarFormulario();
+};
 
   return {
     tipo,
@@ -43,6 +53,7 @@ export const useRegistrarViewModel = () => {
     menuVisible,
     mensaje,
     errores,
+    reinicios,
     selectorFechaVisible,
     abrirSelectorFecha: () => setSelectorFechaVisible(true),
     cerrarSelectorFecha: () => setSelectorFechaVisible(false),
