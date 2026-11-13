@@ -6,12 +6,14 @@ import {
   type TipoMovimiento,
 } from "../models/Movimiento";
 import { validarMovimiento, type ErroresFormulario } from "../utils/validacion";
+import { fechaAISO } from "../utils/formato";
 
 export const useRegistrarViewModel = () => {
   const [tipo, setTipo] = useState<TipoMovimiento>("gasto");
   const [monto, setMonto] = useState("");
   const [categoria, setCategoria] = useState<Categoria | null>(null);
-  const [fecha, setFecha] = useState(obtenerFechaActual);
+  const [fecha, setFecha] = useState(() => fechaAISO(new Date()));
+  const [selectorFechaVisible, setSelectorFechaVisible] = useState(false);
   const [nota, setNota] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
   const [mensaje, setMensaje] = useState("");
@@ -41,6 +43,14 @@ export const useRegistrarViewModel = () => {
     menuVisible,
     mensaje,
     errores,
+    selectorFechaVisible,
+    abrirSelectorFecha: () => setSelectorFechaVisible(true),
+    cerrarSelectorFecha: () => setSelectorFechaVisible(false),
+    elegirFecha: (valor: Date) => {
+      setFecha(fechaAISO(valor));
+      setSelectorFechaVisible(false);
+      setErrores((e) => ({ ...e, fecha: undefined }));
+    },
     cambiarTipo: (valor: string) => {
       if (valor === "gasto" || valor === "ingreso") {
         setTipo(valor);
