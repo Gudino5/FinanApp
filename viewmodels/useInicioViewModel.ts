@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Movimiento } from '../models/Movimiento';
-import { obtenerMovimientos } from '../services/movimientoService';
+import { useCallback, useMemo, useState } from "react";
+import { Movimiento } from "../models/Movimiento";
+import { obtenerMovimientos } from "../services/movimientoService";
+import { useFocusEffect } from "@react-navigation/native";
 
 const CANTIDAD_RECIENTES = 5;
 
@@ -29,18 +30,23 @@ export function useInicioViewModel() {
     }
   }, []);
 
-  useEffect(() => {
-    recargar();
-  }, [recargar]);
+  // Recarga cada vez que la pestaña toma el foco
+  useFocusEffect(
+    useCallback(() => {
+      recargar();
+    }, [recargar]),
+  );
 
   // ───────────── Cálculos ─────────────
   const resumen = useMemo(() => {
-    const ingresos = sumar(movimientos.filter((m) => m.tipo === 'ingreso'));
-    const gastos = sumar(movimientos.filter((m) => m.tipo === 'gasto'));
+    const ingresos = sumar(movimientos.filter((m) => m.tipo === "ingreso"));
+    const gastos = sumar(movimientos.filter((m) => m.tipo === "gasto"));
 
     // Más recientes primero, solo los últimos N
     const recientes = [...movimientos]
-      .sort((a, b) => b.fecha.localeCompare(a.fecha) || b.id.localeCompare(a.id))
+      .sort(
+        (a, b) => b.fecha.localeCompare(a.fecha) || b.id.localeCompare(a.id),
+      )
       .slice(0, CANTIDAD_RECIENTES);
 
     return {
