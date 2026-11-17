@@ -165,7 +165,12 @@ export default function RegistrarScreen() {
             {/* Ticket adjunto (tarea 41: se reinicia al guardar) */}
             <AdjuntarTicket key={viewModel.reinicios} />
 
-            <Button mode="contained" onPress={viewModel.guardar}>
+            <Button
+              mode="contained"
+              onPress={viewModel.guardar}
+              loading={viewModel.guardando}
+              disabled={viewModel.guardando}
+            >
               Guardar movimiento
             </Button>
 
