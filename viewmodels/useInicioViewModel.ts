@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Movimiento } from '../models/Movimiento';
-import { MOVIMIENTOS_PRUEBA } from '../services/datosPrueba';
+import { obtenerMovimientos } from '../services/movimientoService';
 
 const CANTIDAD_RECIENTES = 5;
 
@@ -14,15 +14,33 @@ function sumar(lista: Movimiento[]): number {
 }
 
 export function useInicioViewModel() {
-  const [movimientos] = useState<Movimiento[]>(MOVIMIENTOS_PRUEBA);
+  // ───────────── Estado ─────────────
+  const [movimientos, setMovimientos] = useState<Movimiento[]>([]);
+  const [cargando, setCargando] = useState(true);
 
-  return useMemo(() => {
+  // ───────────── Lectura desde el servicio ─────────────
+  const recargar = useCallback(async () => {
+    try {
+      setMovimientos(await obtenerMovimientos());
+    } catch {
+      setMovimientos([]);
+    } finally {
+      setCargando(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    recargar();
+  }, [recargar]);
+
+  // ───────────── Cálculos ─────────────
+  const resumen = useMemo(() => {
     const ingresos = sumar(movimientos.filter((m) => m.tipo === 'ingreso'));
     const gastos = sumar(movimientos.filter((m) => m.tipo === 'gasto'));
 
     // Más recientes primero, solo los últimos N
     const recientes = [...movimientos]
-      .sort((a, b) => b.fecha.localeCompare(a.fecha))
+      .sort((a, b) => b.fecha.localeCompare(a.fecha) || b.id.localeCompare(a.id))
       .slice(0, CANTIDAD_RECIENTES);
 
     return {
@@ -33,4 +51,7 @@ export function useInicioViewModel() {
       hayMovimientos: movimientos.length > 0,
     };
   }, [movimientos]);
+
+  // ───────────── Lo que usa la vista ─────────────
+  return { ...resumen, cargando, recargar };
 }
