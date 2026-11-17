@@ -10,23 +10,32 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import AccionesRapidas from "../components/AccionesRapidas";
 import { TabParamList } from "../navigation/types";
 import MovimientosRecientes from "../components/MovimientosRecientes";
-import { useEffect } from "react";
 import { borrar, guardarJSON, leerJSON } from "../services/almacenamiento";
+import { useEffect } from 'react';
+import {
+  agregarMovimiento,
+  eliminarMovimiento,
+  obtenerMovimientos,
+} from '../services/movimientoService';
 
 export default function InicioScreen() {
   const theme = useTheme();
   const vm = useInicioViewModel();
-  // useEffect(() => {
-  //   (async () => {
-  //     await guardarJSON("prueba", {
-  //       hola: "mundo",
-  //       hora: new Date().toISOString(),
-  //     });
-  //     console.log("LEÍDO:", await leerJSON("prueba"));
-  //     await borrar("prueba");
-  //     console.log("DESPUÉS DE BORRAR:", await leerJSON("prueba"));
-  //   })();
-  // }, []);
+//  useEffect(() => {
+//   (async () => {
+//     const creado = await agregarMovimiento({
+//       tipo: 'gasto',
+//       monto: '10',
+//       categoria: 'Comida',
+//       fecha: '2026-11-16',
+//       nota: 'prueba',
+//     });
+//     console.log('AGREGADO:', creado);
+//     console.log('TOTAL:', (await obtenerMovimientos()).length);
+//     await eliminarMovimiento(creado.id);
+//     console.log('TOTAL TRAS ELIMINAR:', (await obtenerMovimientos()).length);
+//   })();
+// }, []);
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   return (
     <SafeAreaView
