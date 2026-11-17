@@ -10,10 +10,23 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import AccionesRapidas from "../components/AccionesRapidas";
 import { TabParamList } from "../navigation/types";
 import MovimientosRecientes from "../components/MovimientosRecientes";
+import { useEffect } from "react";
+import { borrar, guardarJSON, leerJSON } from "../services/almacenamiento";
 
 export default function InicioScreen() {
   const theme = useTheme();
   const vm = useInicioViewModel();
+  // useEffect(() => {
+  //   (async () => {
+  //     await guardarJSON("prueba", {
+  //       hola: "mundo",
+  //       hora: new Date().toISOString(),
+  //     });
+  //     console.log("LEÍDO:", await leerJSON("prueba"));
+  //     await borrar("prueba");
+  //     console.log("DESPUÉS DE BORRAR:", await leerJSON("prueba"));
+  //   })();
+  // }, []);
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   return (
     <SafeAreaView
