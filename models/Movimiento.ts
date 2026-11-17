@@ -4,12 +4,16 @@ export type Categoria = (typeof CATEGORIAS)[number];
 export type TipoMovimiento = 'gasto' | 'ingreso';
 
 export interface Movimiento {
+  id: string;            // ← nuevo
   tipo: TipoMovimiento;
   monto: string;
   categoria: Categoria;
   fecha: string;
   nota: string;
 }
+
+// Lo que produce el formulario: todavía no tiene id
+export type NuevoMovimiento = Omit<Movimiento, 'id'>;
 
 export const obtenerFechaActual = (): string => {
   const hoy = new Date();
@@ -24,5 +28,5 @@ export const movimientoEsValido = (
 ): movimiento is Pick<Movimiento, 'monto'> & { categoria: Categoria } =>
   Boolean(movimiento.monto && movimiento.categoria);
 
-export const crearMensajeDeGuardado = (movimiento: Movimiento): string =>
+export const crearMensajeDeGuardado = (movimiento: NuevoMovimiento): string =>
   `Se guardó un ${movimiento.tipo} de $${movimiento.monto} en ${movimiento.categoria}`;
