@@ -29,7 +29,7 @@ export default function MovimientosRecientes({ movimientos, onVerHistorial }: Pr
         <EstadoVacio mensaje="Aún no tienes movimientos registrados." />
       ) : (
         movimientos.map((m, i) => (
-          <FilaMovimiento key={`${m.fecha}-${m.categoria}-${i}`} movimiento={m} />
+          <FilaMovimiento key={m.id} movimiento={m} />
         ))
       )}
     </View>

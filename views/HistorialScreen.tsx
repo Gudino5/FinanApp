@@ -33,6 +33,7 @@ export default function HistorialScreen() {
         showsHorizontalScrollIndicator={false}
         style={styles.selector}
         contentContainerStyle={styles.chips}
+        
       >
         {vm.categorias.map((c) => (
           <Chip
@@ -47,7 +48,7 @@ export default function HistorialScreen() {
 
       <FlatList
         data={vm.movimientos}
-        keyExtractor={(m, i) => `${m.fecha}-${m.categoria}-${m.monto}-${i}`}
+        keyExtractor={(m) => m.id}
         renderItem={({ item }) => <FilaMovimiento movimiento={item} />}
         ListEmptyComponent={
           <EstadoVacio mensaje="No hay movimientos para esta categoría." />

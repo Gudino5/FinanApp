@@ -10,7 +10,7 @@ export function formatearFecha(fecha: string): string {
   return `${dia}/${mes}/${anio}`;
 }
 
-// Date -> "2026-11-12", con la fecha local (sin pasar por UTC)
+// Fecha -> "2026-11-12", con la fecha local (sin pasar por UTC)
 export function fechaAISO(fecha: Date): string {
   const anio = fecha.getFullYear();
   const mes = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -18,7 +18,7 @@ export function fechaAISO(fecha: Date): string {
   return `${anio}-${mes}-${dia}`;
 }
 
-// "2026-11-12" -> Date local
+// "2026-11-12" -> Fecha local
 export function fechaDesdeISO(fecha: string): Date {
   const [anio, mes, dia] = fecha.split('-').map(Number);
   return new Date(anio, mes - 1, dia);
