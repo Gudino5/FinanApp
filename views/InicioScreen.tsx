@@ -17,25 +17,28 @@ import {
   obtenerMovimientos,
 } from "../services/movimientoService";
 import { ActivityIndicator, useTheme } from "react-native-paper";
+import {
+  eliminarPresupuesto,
+  guardarPresupuesto,
+  obtenerPresupuestos,
+} from "../services/presupuestosService";
 
 export default function InicioScreen() {
   const theme = useTheme();
   const vm = useInicioViewModel();
-  //  useEffect(() => {
+  // useEffect(() => {
   //   (async () => {
-  //     const creado = await agregarMovimiento({
-  //       tipo: 'gasto',
-  //       monto: '10',
-  //       categoria: 'Comida',
-  //       fecha: '2026-11-16',
-  //       nota: 'prueba',
+  //     await guardarPresupuesto({ categoria: "Comida", limite: 500 });
+  //     const editado = await guardarPresupuesto({
+  //       categoria: "Comida",
+  //       limite: 800,
   //     });
-  //     console.log('AGREGADO:', creado);
-  //     console.log('TOTAL:', (await obtenerMovimientos()).length);
-  //     await eliminarMovimiento(creado.id);
-  //     console.log('TOTAL TRAS ELIMINAR:', (await obtenerMovimientos()).length);
+  //     console.log("PRESUPUESTOS:", await obtenerPresupuestos());
+  //     await eliminarPresupuesto(editado.id);
+  //     console.log("TRAS ELIMINAR:", (await obtenerPresupuestos()).length);
   //   })();
   // }, []);
+
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   return (
     <SafeAreaView

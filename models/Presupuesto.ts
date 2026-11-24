@@ -1,7 +1,7 @@
 import { CategoriaGasto } from './Categoria';
 
 export interface Presupuesto {
-  id: string;            // ← nuevo
+  id: string;           
   categoria: CategoriaGasto;
   limite: number;
 }

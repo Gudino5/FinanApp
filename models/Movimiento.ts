@@ -4,7 +4,7 @@ export type Categoria = (typeof CATEGORIAS)[number];
 export type TipoMovimiento = 'gasto' | 'ingreso';
 
 export interface Movimiento {
-  id: string;            // ← nuevo
+  id: string;           
   tipo: TipoMovimiento;
   monto: string;
   categoria: Categoria;

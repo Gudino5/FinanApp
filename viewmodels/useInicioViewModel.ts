@@ -15,11 +15,11 @@ function sumar(lista: Movimiento[]): number {
 }
 
 export function useInicioViewModel() {
-  // ───────────── Estado ─────────────
+  // Estado 
   const [movimientos, setMovimientos] = useState<Movimiento[]>([]);
   const [cargando, setCargando] = useState(true);
 
-  // ───────────── Lectura desde el servicio ─────────────
+  // Lectura desde el servicio
   const recargar = useCallback(async () => {
     try {
       setMovimientos(await obtenerMovimientos());
@@ -61,3 +61,4 @@ export function useInicioViewModel() {
   // ───────────── Lo que usa la vista ─────────────
   return { ...resumen, cargando, recargar };
 }
+  
