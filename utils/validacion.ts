@@ -29,8 +29,7 @@ export function validarMovimiento(f: Formulario): ErroresFormulario {
   } else if (!Number.isFinite(Number(monto)) || Number(monto) <= 0) {
     errores.monto = 'El monto debe ser un número mayor a 0.';
   }
-
-
+  
   if (f.categoria === null) {
     errores.categoria = 'Selecciona una categoría.';
   }
